@@ -13,34 +13,42 @@
 
 namespace HmqTransdi{
 
-	const string TRANSDI_INDEXFILE_SFIX = ".idx";
-	const string TRANSDI_METAFILE_SFIX = ".meta";
-	const string TRANSDI_DATAFILE_SFIX = ".data";
+	const std::string TRANSDI_INDEXFILE_SFIX = ".idx";
+	const std::string TRANSDI_METAFILE_SFIX = ".meta";
+	const std::string TRANSDI_DATAFILE_SFIX = ".data";
+	const std::string TRANSDI_LASTWRITE_SFIX = ".last_write.transid";
+	const std::string TRANSDI_LASTSYNC_SFIX = ".last_sync.transid";
 
 	const uint32_t TRANSDI_MAGICNUM = 0x81097f6c;
 
-	enum class TRANSDI_OPEN_TYPE{
-		READ = 1,
-		WRITE
-	};
+	const uint32_t TRANSDI_OPEN_TYPE_READ = 1;
+	const uint32_t TRANSDI_OPEN_TYPE_WRITE = 2;
 
-	enum class TRANSDI_FLAG{
-		NOTHING = 0x00,
-		CHECKSUM
-	};
+	typedef enum _transdi_falgs_t{
+		TRANSDI_FLAG_NOTHING = 0x00,
+		TRANSDI_CHECKSUM = 0x01,
+	}transdi_flags_t;
 
-	const int TRANSDI_FLAG_DEFAULT = TRANSDI_FLAG::NOTHING;
+	const uint32_t TRANSDI_FLAG_DEFAULT = TRANSDI_FLAG_NOTHING;
+	//#define TRANSDI_FLAG_DEFAULT TRANSDI_FLAG_NOTHING
+
+	// di数据文件最大长度 2G
+	const uint32_t TRANSDI_MAX_DATA_FILESIZE = 1024*1024*1024*2U;
+
+	// 一个目录里面最多的index文件个数
+	const uint32_t TRANSDI_MAX_IDXFILE_PERDIR = 10000;
+	
+
 
 #pragma pack(4)
 
 	// meta文件信息，40Bytes
 	typedef struct _transdi_meta_t{
 		uint32_t magic_num;
-		uint32_t version;
 		uint32_t flags;
 		uint32_t block_size;
-		uint32_t idxfile_perdir;
-		uint32_t idxnum_perfile;
+		uint32_t idx_file_perdir;
+		uint32_t idx_num_perfile;
 		uint32_t reserved[4];
 	}transdi_meta_t;
 
