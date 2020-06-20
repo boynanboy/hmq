@@ -18,6 +18,6 @@ int main(){
 	cout << "hello world, i am hmq" << endl;
 	LOG(INFO) << "hello world, i am hmq";
 	HmqTransdi::transdi_file_t* di_file = new HmqTransdi::transdi_file_t;
-	cout << HmqTransdi::transdi_open_w(di_file, "/Users/Hyper/codes/hmq/hmq/build/bin", "hmq") <<endl;
+	cout << HmqTransdi::transdi_open_w(di_file, "/home/hyper/Codes/hmq/build/bin", "hmq") <<endl;
 	return 0;
 }

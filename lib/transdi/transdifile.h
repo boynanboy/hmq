@@ -13,9 +13,9 @@
 
 namespace HmqTransdi{
 
-	const std::string TRANSDI_INDEXFILE_SFIX = ".idx";
+	const std::string TRANSDI_INDEXFILE_SFIX = ".idx.";
 	const std::string TRANSDI_METAFILE_SFIX = ".meta";
-	const std::string TRANSDI_DATAFILE_SFIX = ".data";
+	const std::string TRANSDI_DATAFILE_SFIX = ".data.";
 	const std::string TRANSDI_LASTWRITE_SFIX = ".last_write.transid";
 	const std::string TRANSDI_LASTSYNC_SFIX = ".last_sync.transid";
 
@@ -42,7 +42,7 @@ namespace HmqTransdi{
 
 #pragma pack(4)
 
-	// meta文件信息，40Bytes
+	// meta文件信息，36Bytes
 	typedef struct _transdi_meta_t{
 		uint32_t magic_num;
 		uint32_t flags;

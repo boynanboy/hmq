@@ -17,7 +17,7 @@
 #include <new>
 #include <sys/stat.h>
 #include <sys/file.h>
-#include <string>
+#include <cstring>
 #include <iostream>
 
 
@@ -81,7 +81,7 @@ namespace HmqTransdi{
 	}
 
 	static int _transdi_load_cur(transdi_file_t* di_file){
-/*{{{*/
+	/*{{{*/
 		char buf[TRANSDI_MAX_FILENAME_LEN];
 		off_t fileoff = 0;
 		struct stat st;
@@ -365,9 +365,8 @@ namespace HmqTransdi{
 		int ret = 0;
 		transdi_meta_t* head = new transdi_meta_t;
 
-		if (access(buf, F_OK)){
+		if (access(buf, F_OK) == 0){
 			fd = open(buf, O_RDONLY);
-			std::cout << " buf : " << buf << " fd : " << fd << std::endl;
 			if (fd < 0){
 				return -1;
 			}
@@ -405,7 +404,7 @@ namespace HmqTransdi{
 				return -1;
 			}
 
-			if (write(fd, head, sizeof(*head) != sizeof(*head))){
+			if (write(fd, head, sizeof(*head)) != sizeof(*head)){
 				return -1;
 			}
 		} else {
@@ -431,6 +430,7 @@ namespace HmqTransdi{
 		strncpy(di_file->basename, basename, sizeof(di_file->basename)-1);
 
 		di_file->flags = flags;
+		di_file->block_size = block_size;
 		di_file->idx_file_perdir = idx_file_perdir;
 		di_file->idx_num_perfile = idx_num_perfile;
 		di_file->idx_num_perdir = (unsigned long long)idx_file_perdir * (unsigned long long)idx_num_perfile;
@@ -444,7 +444,8 @@ namespace HmqTransdi{
 		di_file->read_data_dir_no = -1;
 
 		di_file->open_type = TRANSDI_OPEN_TYPE_WRITE;
-		di_file->enable_sync = sync_strategy;
+		di_file->enable_sync = enable_sync;
+		di_file->sync_strategy = sync_strategy;
 		di_file->sync_step = sync_step;
 		di_file->sync_interval_s = sync_interval_s;
 
